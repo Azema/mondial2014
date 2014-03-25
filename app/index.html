@@ -32,9 +32,12 @@
           <ul class="nav nav-pills pull-right">
             <li class="active"><a ng-href="#">Home</a></li>
             <li><a ng-href="#">About</a></li>
-            <li><a ng-href="#">Contact</a></li>
+            <li><a ng-href="#/login">Login</a></li>
           </ul>
-          <h3 class="text-muted">mondial2014</h3>
+          <div ng-controller="HeaderCtrl">
+            <h3 class="text-muted">mondial2014</h3>
+            {{connectedUser()}} <a ng-if="isLoggedIn()" ng-click="logoutAction()">Logout</a>
+          </div>
         </div>
         <div ng-view=""></div>
         <div class="footer">
@@ -66,15 +69,17 @@
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/data/basic_data.js"></script>
+        <script src="scripts/services/services.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/login.js"></script>
-        <script src="scripts/services/services.js"></script>
+        <script src="scripts/controllers/header.js"></script>
         <!-- endbuild -->
 </body>
 </html>
