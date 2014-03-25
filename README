@@ -1,0 +1,6 @@
+npm install --save-dev connect-livereload
+npm install
+bower install
+
+
+grunt serve
