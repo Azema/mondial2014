@@ -17,6 +17,10 @@ angular.module('mondial2014App', [
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
+      .when('/bets', {
+        templateUrl: 'views/bets.html',
+        controller: 'LBetsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

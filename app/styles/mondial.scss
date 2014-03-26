@@ -3,7 +3,7 @@
 .team-group {
 	display:inline-block;
 	padding: 5px;
-	width: 230px;
+	width: 330px;
 	@include border-radius(5px);
 	border:1px solid #dcdcdc;
 	color:#000000;
@@ -21,8 +21,16 @@
 	padding-bottom:3px;
 }
 
-.team-group .country {
+.team-group .match .country{
+	display: inline-block;
+    text-align: center;
+    width: 120px;
+}
 
+.team-group .match .date{
+	display: inline-block;
+    text-align: right;
+    width: 40px;
 }
 
 .team-group .country-name {

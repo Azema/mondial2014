@@ -42,7 +42,8 @@ angular.module('mondial2014Services', [])
 
                 // read the match sections
                 getMatchSections: function(successCallback, errorCallback) {
-                    var query = new Parse.Query('MatchSection');
+                    var MatchSection = Parse.Object.extend('MatchSection');
+                    var query = new Parse.Query(MatchSection);
                     query.ascending('label');
                     query.include('matchs');
 
@@ -51,7 +52,10 @@ angular.module('mondial2014Services', [])
                         success: function(results) {
                             var matchSections = [];
                             for(var i = 0; i < results.length; i++) {
-                                matchSections.push(results[i].attributes);
+                                matchSections.push({
+                                    label: results[i].get('label'),
+                                    matchs: results[i].get('matchs')
+                                });
                             }
                             if (typeof successCallback !== 'undefined') {
                                 successCallback(matchSections);
