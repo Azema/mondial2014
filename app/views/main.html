@@ -10,11 +10,9 @@
 </div>
 
 <div class="row marketing">
-<div class="team-group" ng-repeat="(groupKey, group) in groups">
-	<div class="team-group-name">{{group.name}}</div>
-	<div class="country" ng-repeat="(countryCode, country) in group.countries">
-		<img ng-src="{{country.flagIcon}}" /><span class="country-name">{{country.name}}</span>
-	</div>
+<div class="team-group" ng-repeat="(groupKey, group) in matchSections">
+	<div class="team-group-name">{{group.label}}</div>
+
 </div>
 </div>
 
