@@ -1,0 +1,12 @@
+
+
+<div class="row marketing">
+	<div class="team-group" ng-repeat="(groupKey, group) in matchSections">
+		<div class="team-group-name">{{group.label}}</div>
+		<div class="match" ng-repeat="(matchKey, match) in group.matchs">
+			<span class="country">{{match.get('home')}}</span> -
+			<span class="country">{{match.get('away')}}</span>
+			<span>{{match.get('date') | date:'dd/MM'}}</span>
+		</div>
+	</div>
+</div>

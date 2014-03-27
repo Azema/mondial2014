@@ -29,15 +29,30 @@
     <!-- Add your site or application content here -->
     <div class="container">
         <div class="header">
-          <ul class="nav nav-pills pull-right">
-            <li class="active"><a ng-href="#">Home</a></li>
-            <li><a ng-href="#/bets">My bets</a></li>
-            <li><a ng-href="#/login">Login</a></li>
-          </ul>
-          <div ng-controller="HeaderCtrl">
-            <h3 class="text-muted">mondial2014</h3>
-            {{connectedUser()}} <a ng-if="isLoggedIn()" ng-click="logoutAction()">Logout</a>
+
+          <div class="btn-group pull-right btn-group-sm">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Action <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Home</a></li>
+              <li><a href="#/bets">My bets</a></li>
+              <li class="divider"></li>
+              <li><a href="#/scores">Scores</a></li>
+            </ul>
           </div>
+        
+          <div id="users" class="login pull-right" ng-controller="HeaderCtrl">
+              <span ng-show="isLoggedIn()">{{connectedUser()}}</span>
+              <input type="text" ng-model="login" ng-show="!(isLoggedIn())" class="tiny">
+              <input type="password" ng-model="password" ng-show="!(isLoggedIn())" class="tiny">
+              <button class='btn btn-default btn-xs' ng-show="!(isLoggedIn())" ng-click="loginAction()">Login</button>
+              <button class='btn btn-default btn-xs' ng-show="isLoggedIn()" ng-click="logoutAction()">Logout</button>
+          </div>
+
+
+          <h3 class="text-muted">mondial2014</h3>
+
         </div>
         <div ng-view=""></div>
         <div class="footer">
@@ -75,10 +90,11 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/data/basic_data.js"></script>
-        <script src="scripts/services/services.js"></script>
+        <script src="scripts/services/userService.js"></script>
+        <script src="scripts/services/matchService.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/controllers/bets.js"></script>
         <script src="scripts/controllers/header.js"></script>
         <!-- endbuild -->
 </body>

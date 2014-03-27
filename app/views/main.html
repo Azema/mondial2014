@@ -1,22 +1,14 @@
 
 
-<div class="jumbotron">
+<div class="jumbotron" ng-show="!(isLoggedIn())">
   <h1>Ready ?</h1>
   <p class="lead">
     <img src="images/fifa.jpg" alt="I'm Yeoman"><br>
     Take a beer and a pizza
   </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/login">Let's play</a></p>
+  <p><a class="btn btn-lg btn-success" ng-href="#/bets">Let's play</a></p>
 </div>
 
-<div class="row marketing">
-<div class="team-group" ng-repeat="(groupKey, group) in matchSections">
-	<div class="team-group-name">{{group.label}}</div>
-	<div class="match" ng-repeat="(matchKey, match) in group.matchs">
-		<span class="country">{{match.get('home')}}</span> -
-		<span class="country">{{match.get('away')}}</span>
-		<span>{{match.get('date') | date:'dd/MM'}}</span>
-	</div>
+<div class="jumbotron" ng-show="isLoggedIn()">
+	<h1>The rules</h1>
 </div>
-</div>
-

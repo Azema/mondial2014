@@ -5,21 +5,19 @@ angular.module('mondial2014App', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'mondial2014Services'
+  'userService',
+  'matchService'
 ])
   .config(function ($routeProvider) {
+    Parse.initialize('hHMtwspyCykR6LuH6dJGQr9VlVPZ0qdp0io9Ju96', 'yP1WZanl5W944habV9NsAQa3AsoJYklVaqiL5JwX');
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
-      })
       .when('/bets', {
         templateUrl: 'views/bets.html',
-        controller: 'LBetsCtrl'
+        controller: 'BetsCtrl'
       })
       .otherwise({
         redirectTo: '/'
