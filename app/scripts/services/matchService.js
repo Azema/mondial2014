@@ -19,9 +19,23 @@ angular.module('matchService', [])
                         success: function(results) {
                             var matchSections = [];
                             for(var i = 0; i < results.length; i++) {
+                                var parseMatches = results[i].get('matchs');
+                                var matches = [];
+                                for(var j = 0; j<parseMatches.length; j++) {
+                                    matches.push({
+                                        date: parseMatches[j].get('date'),
+                                        place: parseMatches[j].get('place'),
+                                        home: parseMatches[j].get('home'),
+                                        away: parseMatches[j].get('away'),
+                                        homeCode: parseMatches[j].get('homeCode'),
+                                        awayCode: parseMatches[j].get('awayCode'),
+                                        homeScore: parseMatches[j].get('homeScore'),
+                                        awayScore: parseMatches[j].get('awayScore')
+                                    });
+                                }
                                 matchSections.push({
                                     label: results[i].get('label'),
-                                    matchs: results[i].get('matchs')
+                                    matchs: matches
                                 });
                             }
                             if (typeof successCallback !== 'undefined') {
