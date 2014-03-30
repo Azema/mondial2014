@@ -3,11 +3,4 @@ npm install
 bower install
 
 
-ajouter les lignes suivantes dans app/bower_components/flag-icon-css/.bower
-  "main": [
-    "./css/flag-icon.min.css"
-  ],
-juste après "version": "0.6.0"
-
-
 grunt serve

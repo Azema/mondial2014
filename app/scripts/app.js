@@ -6,7 +6,8 @@ angular.module('mondial2014App', [
   'ngSanitize',
   'ngRoute',
   'userService',
-  'matchService'
+  'matchService',
+  'ui.bootstrap'
 ])
   .config(function ($routeProvider) {
     Parse.initialize('hHMtwspyCykR6LuH6dJGQr9VlVPZ0qdp0io9Ju96', 'yP1WZanl5W944habV9NsAQa3AsoJYklVaqiL5JwX');

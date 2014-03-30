@@ -3,7 +3,7 @@
 .team-group {
 	display:inline-block;
 	padding: 5px;
-	width: 330px;
+	width: 340px;
 	@include border-radius(5px);
 	border:1px solid #dcdcdc;
 	color:#000000;
@@ -27,6 +27,46 @@
     width: 120px;
 }
 
+.team-group .match:hover {
+	background-color: #70B879;
+	cursor:pointer;
+} 
+
+.team-group .match .more-information {
+	display:none;
+}
+
+.team-group .match .score {
+	border: 1px solid #A1A1A1;
+    display: inline-block;
+    height: 1.8em;
+    width: 18px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 10px;
+}
+
+.team-group .match:hover .more-information {
+	display: block;
+    position: absolute;
+    z-index: 99;
+}
+
+.team-group .match .more-information div {
+	display:inline-block;
+	@include border-radius(5px);
+	@include background-image(linear-gradient(#E7DDF6, #BCAAD7));
+	border:1px solid #212433;
+	padding: 5px;
+    left: -90px;
+    position: relative;
+    top: -17px;
+
+}
+.team-group .match .more-information div span {
+	display:block;
+}
+
 .team-group .match .date{
 	display: inline-block;
     text-align: right;
@@ -47,4 +87,14 @@
 
 .tiny {
   font-size: 70%;
+}
+
+.modal-body span.flag-icon {
+	border:solid 1px #888888;
+	margin-right:20px;
+}
+
+.modal-body div.bet-input {
+	display:inline-block;
+	width: 200px;
 }
