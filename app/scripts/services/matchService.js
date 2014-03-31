@@ -43,28 +43,18 @@ angular.module('matchService', [])
                                                         homeScore:0
                                                     };
                                                 }
-                                                if (typeof values.home !== 'undefined') {
-                                                    this.bet.homeScore = values.home;
+                                                if (typeof values.homeScore !== 'undefined') {
+                                                    this.bet.homeScore = values.homeScore;
                                                 }
-                                                if (typeof values.away !== 'undefined') {
-                                                    this.bet.awayScore = values.away;
+                                                if (typeof values.awayScore !== 'undefined') {
+                                                    this.bet.awayScore = values.awayScore;
                                                 }
                                             };
                                             matchSections[group].matchs[match].saveBet = function(bet){
-                                                if (bet === null) {
-                                                    return;
-                                                }
-                                                if (this.bet === null) {
-                                                    this.bet = {
-                                                        awayScore: bet.awayScore,
-                                                        homeScore: bet.homeScore
-                                                    };
-                                                    console.log('New bet');
-                                                } else {
-                                                    this.bet.awayScore = bet.awayScore;
-                                                    this.bet.homeScore = bet.homeScore;
-                                                    console.log('Update bet');
-                                                }
+                                                this.setBet(bet);
+                                                this.bet.parseObject.set('awayScore', this.bet.awayScore);
+                                                this.bet.parseObject.set('homeScore', this.bet.homeScore);
+                                                this.bet.parseObject.save();
                                             }
                                         }
                                     }
@@ -124,7 +114,8 @@ var _getMatchSections = function(successCallback, errorCallback) {
                         homeCode: parseMatches[j].get('homeCode'),
                         awayCode: parseMatches[j].get('awayCode'),
                         homeScore: parseMatches[j].get('homeScore'),
-                        awayScore: parseMatches[j].get('awayScore')
+                        awayScore: parseMatches[j].get('awayScore'),
+                        parseObject: parseMatches[j]
                     });
                 }
                 matchSections.push({
@@ -157,7 +148,8 @@ var _getMyBets= function(successCallback, errorCallback) {
                     id: results[i].id,
                     awayScore: results[i].get('awayScore'),
                     homeScore: results[i].get('homeScore'),
-                    matchId: results[i].get('match').id
+                    matchId: results[i].get('match').id,
+                    parseObject: results[i]
                 });
             }
             if (typeof successCallback !== 'undefined') {
@@ -178,5 +170,11 @@ var _findBet = function(allMyBets, match) {
             return allMyBets[i];
         }
     }
-    return null;
+    var BetObj = Parse.Object.extend("Bet");
+    var bet = new BetObj();
+    bet.set('user', Parse.User.current());
+    bet.set('match', match.parseObject);
+    return {
+        parseObject: bet,
+    };
 };

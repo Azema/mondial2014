@@ -28,6 +28,7 @@ angular.module('mondial2014App')
 
             modalInstance.result.then(function (data) {
                 data.match.saveBet(data.bet);
+                
             }, function () {});
         };
 
