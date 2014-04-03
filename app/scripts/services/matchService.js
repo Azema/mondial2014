@@ -43,7 +43,7 @@ angular.module('matchService', [])
                         return allMyBets[i];
                     }
                 }
-                var BetObj = Parse.Object.extend("Bet");
+                var BetObj = Parse.Object.extend('Bet');
                 var bet = new BetObj();
                 bet.set('user', Parse.User.current());
                 bet.set('match', match.parseObject);
@@ -94,6 +94,52 @@ angular.module('matchService', [])
                 );
             };
 
+            var _buildMatchBets = function(match, bets) {
+                match.bet = _findBet(bets, match);
+                match.getHomeBet = function(){
+                    if (this.bet !== null) {
+                        return this.bet.homeScore;
+                    }
+                    return '';
+                };
+                match.getAwayBet = function(){
+                    if (this.bet !== null) {
+                        return this.bet.awayScore;
+                    }
+                    return '';
+                };
+                match.getBet = function(){
+                    if (this.bet !== null) {
+                        return this.bet;
+                    }
+                    return {
+                        awayScore:'',
+                        homeScore:''
+                    };
+                };
+                match.setBet = function(values){
+                    if (this.bet === null) {
+                        this.bet = {
+                            awayScore:0,
+                            homeScore:0
+                        };
+                    }
+                    if (typeof values.homeScore !== 'undefined') {
+                        this.bet.homeScore = values.homeScore;
+                    }
+                    if (typeof values.awayScore !== 'undefined') {
+                        this.bet.awayScore = values.awayScore;
+                    }
+                };
+                match.saveBet = function(bet){
+                    this.setBet(bet);
+                    this.bet.parseObject.set('awayScore', this.bet.awayScore);
+                    this.bet.parseObject.set('homeScore', this.bet.homeScore);
+                    this.bet.parseObject.save();
+                };
+                return match;
+            };
+
             var ParseService = {
                 name: 'Parse',
 
@@ -109,48 +155,7 @@ angular.module('matchService', [])
                                 function(matchSections) {
                                     for (var group=0; group<matchSections.length; group++) {
                                         for (var match=0; match<matchSections[group].matchs.length; match++) {
-                                            matchSections[group].matchs[match].bet = _findBet(bets, matchSections[group].matchs[match]);
-                                            matchSections[group].matchs[match].getHomeBet = function(){
-                                                if (this.bet !== null) {
-                                                    return this.bet.homeScore;
-                                                }
-                                                return '';
-                                            };
-                                            matchSections[group].matchs[match].getAwayBet = function(){
-                                                if (this.bet !== null) {
-                                                    return this.bet.awayScore;
-                                                }
-                                                return '';
-                                            };
-                                            matchSections[group].matchs[match].getBet = function(){
-                                                if (this.bet !== null) {
-                                                    return this.bet;
-                                                }
-                                                return {
-                                                    awayScore:'',
-                                                    homeScore:''
-                                                };
-                                            };
-                                            matchSections[group].matchs[match].setBet = function(values){
-                                                if (this.bet === null) {
-                                                    this.bet = {
-                                                        awayScore:0,
-                                                        homeScore:0
-                                                    };
-                                                }
-                                                if (typeof values.homeScore !== 'undefined') {
-                                                    this.bet.homeScore = values.homeScore;
-                                                }
-                                                if (typeof values.awayScore !== 'undefined') {
-                                                    this.bet.awayScore = values.awayScore;
-                                                }
-                                            };
-                                            matchSections[group].matchs[match].saveBet = function(bet){
-                                                this.setBet(bet);
-                                                this.bet.parseObject.set('awayScore', this.bet.awayScore);
-                                                this.bet.parseObject.set('homeScore', this.bet.homeScore);
-                                                this.bet.parseObject.save();
-                                            }
+                                            matchSections[group].matchs[match] = _buildMatchBets(matchSections[group].matchs[match], bets);
                                         }
                                     }
                                     return matchSections;

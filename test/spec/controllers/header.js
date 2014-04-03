@@ -1,6 +1,6 @@
 'use strict';
 
-/*describe('Controller: MainCtrl', function () {
+describe('Controller: HeaderCtrl', function () {
 
   // load the controller's module
   beforeEach(module('mondial2014App'));
@@ -11,12 +11,30 @@
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    MainCtrl = $controller('HeaderCtrl', {
       $scope: scope
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('loginAction should be defined', function () {
+    expect(scope.loginAction).toBeDefined();
   });
-});*/
+  it('connectedUser should be defined', function () {
+    expect(scope.connectedUser).toBeDefined();
+  });
+  it('logoutAction should be defined', function () {
+    expect(scope.logoutAction).toBeDefined();
+  });
+  it('isLoggedIn should be defined', function () {
+    expect(scope.isLoggedIn).toBeDefined();
+  });
+  it('should have an empty username', function () {
+    expect(scope.username.length).toBe(0);
+  });
+  it('should have an empty login', function () {
+    expect(scope.login.length).toBe(0);
+  });
+  it('should have an empty password', function () {
+    expect(scope.password.length).toBe(0);
+  });
+});

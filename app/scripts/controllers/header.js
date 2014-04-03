@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mondial2014App')
-        .controller('HeaderCtrl', function($scope, UserService) {
+        .controller('HeaderCtrl', ['$scope', 'UserService', function($scope, UserService) {
             $scope.username = '';
             $scope.login = '';
             $scope.password = '';
@@ -31,4 +31,4 @@ angular.module('mondial2014App')
             $scope.isLoggedIn = function() {
                 return UserService.isLoggedIn();
             };
-        });
+        }]);
