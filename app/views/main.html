@@ -1,14 +1,14 @@
 
 
 <div class="jumbotron" ng-show="!(isLoggedIn())">
-  <h1>Ready ?</h1>
+  <h1>{{'Ready' | translate}} ?</h1>
   <p class="lead">
     <img src="images/fifa.jpg" alt="I'm Yeoman"><br>
-    Take a beer and a pizza
+    {{'Take a beer and a pizza' | translate }} !
   </p>
   <p><a class="btn btn-lg btn-success" ng-href="#/bets">Let's play</a></p>
 </div>
 
 <div class="jumbotron" ng-show="isLoggedIn()">
-	<h1>The rules</h1>
+	<h1>{{'The rules' | translate}} </h1>
 </div>

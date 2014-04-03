@@ -33,13 +33,13 @@
 
           <div class="btn-group pull-right btn-group-sm">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Action <span class="caret"></span>
+              {{'Action' | translate}} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Home</a></li>
-              <li><a href="#/bets">My bets</a></li>
+              <li><a href="#">{{'Home' | translate}}</a></li>
+              <li><a href="#/bets">{{'My bets' | translate}}</a></li>
               <li class="divider"></li>
-              <li><a href="#/scores">Scores</a></li>
+              <li><a href="#/scores">{{'Scores' | translate}}</a></li>
             </ul>
           </div>
         
@@ -47,8 +47,8 @@
               <span ng-show="isLoggedIn()">{{connectedUser()}}</span>
               <input type="text" ng-model="login" ng-show="!(isLoggedIn())" class="tiny">
               <input type="password" ng-model="password" ng-show="!(isLoggedIn())" class="tiny">
-              <button class='btn btn-default btn-xs' ng-show="!(isLoggedIn())" ng-click="loginAction()">Login</button>
-              <button class='btn btn-default btn-xs' ng-show="isLoggedIn()" ng-click="logoutAction()">Logout</button>
+              <button class='btn btn-default btn-xs' ng-show="!(isLoggedIn())" ng-click="loginAction()">{{'Login' | translate}}</button>
+              <button class='btn btn-default btn-xs' ng-show="isLoggedIn()" ng-click="logoutAction()">{{'Logout' | translate}}</button>
           </div>
 
 
@@ -57,7 +57,7 @@
         </div>
         <div ng-view=""></div>
         <div class="footer">
-          <p>♥ from the team</p>
+          <p>{{'from the team' | translate}}</p>
         </div>
     </div>
 
@@ -76,6 +76,9 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-url/angular-translate-loader-url.js"></script>
+    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

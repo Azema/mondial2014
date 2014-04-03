@@ -3,7 +3,7 @@
 /* Services */
 
 angular.module('userService', [])
-        .factory('UserService', function(/*$resource*/) {
+        .factory('UserService', function() {
             var ParseService = {
                 name: 'Parse',
 

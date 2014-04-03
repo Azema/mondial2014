@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mondial2014App')
-        .controller('HeaderCtrl', ['$scope', 'UserService', function($scope, UserService) {
+        .controller('HeaderCtrl', ['$scope', 'UserService', '$translate', function($scope, UserService, $translate) {
             $scope.username = '';
             $scope.login = '';
             $scope.password = '';
@@ -9,6 +9,11 @@ angular.module('mondial2014App')
             $scope.loginAction = function() {
                 UserService.login($scope.login, $scope.password).then(
                     function() {
+                        var lang = '' + UserService.getCurrentUser().get('lang');
+                        var availableLanguages = ['fr', 'en'];
+                        lang = (availableLanguages.indexOf(lang) >=0 ) ? lang : 'en';
+                        console.log(lang);
+                        $translate.use(lang);
                         $scope.$apply();
                     }
                 );
@@ -24,8 +29,8 @@ angular.module('mondial2014App')
             };
 
             $scope.logoutAction = function() {
-                console.log('logout');
                 UserService.logout();
+                $translate.use('en');
             };
 
             $scope.isLoggedIn = function() {

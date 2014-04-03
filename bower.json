@@ -12,7 +12,10 @@
     "angular-sanitize": "1.2.6",
     "angular-route": "1.2.6",
     "angular-bootstrap": "0.10.0",
-    "flag-icon-css":"master"
+    "flag-icon-css":"master",
+    "angular-translate":"2.1.0",
+    "angular-translate-loader-url":"2.1.0",
+    "angular-translate-loader-static-files":"2.1.0"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",

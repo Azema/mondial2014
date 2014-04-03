@@ -7,10 +7,15 @@ angular.module('mondial2014App', [
   'ngRoute',
   'userService',
   'matchService',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'pascalprecht.translate'
 ])
-  .config(function ($routeProvider) {
+  .config(['$routeProvider', '$translateProvider', function ($routeProvider, $translateProvider) {
+    
+    // Parse initialization
     Parse.initialize('hHMtwspyCykR6LuH6dJGQr9VlVPZ0qdp0io9Ju96', 'yP1WZanl5W944habV9NsAQa3AsoJYklVaqiL5JwX');
+    
+    // routes
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -23,4 +28,16 @@ angular.module('mondial2014App', [
       .otherwise({
         redirectTo: '/'
       });
-  });
+      
+      // Translate
+      $translateProvider.useStaticFilesLoader({
+        prefix: '/languages/',
+        suffix: '.json'
+      });
+
+      var currentUser =  Parse.User.current();
+      var lang = (currentUser !== null) ? '' + Parse.User.current().get('lang') : 'en';
+      var availableLanguages = ['fr', 'en'];
+      lang = (availableLanguages.indexOf(lang) >=0 ) ? lang : 'en';
+      $translateProvider.preferredLanguage(lang);
+  }]);
