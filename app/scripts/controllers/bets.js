@@ -4,7 +4,7 @@ angular.module('mondial2014App')
     .controller('BetsCtrl', function($scope, MatchService, $modal) {
         $scope.matchSections = [];
         $scope.bets = [];
-        MatchService.getBetsPerMatchSection(
+        MatchService.getBetsPerMatchSection().then(
             function(matchSections) {
                 $scope.matchSections = matchSections;
                 $scope.$apply();

@@ -6,33 +6,40 @@ angular.module('userService', [])
         .factory('UserService', function(/*$resource*/) {
             var ParseService = {
                 name: 'Parse',
-                // Login a user
-                login: function(username, password, successCallback, errorCallback) {
-                    Parse.User.logIn(username, password, {
-                        success: function(user) {
-                            if (typeof successCallback !== 'undefined') {
-                                successCallback(user);
-                            }
-                        },
-                        error: function(user, error) {
-                            if (typeof errorCallback !== 'undefined') {
-                                errorCallback(error, user);
-                            }
-                        }
-                    });
+
+                /**
+                 * login a user
+                 * 
+                 * @return promise
+                 */
+                login: function(username, password) {
+                    return Parse.User.logIn(username, password);
                 },
-                // Logout current user
-                logout: function(callback) {
-                    Parse.User.logOut();
-                    if (typeof callback !== 'undefined') {
-                        callback();
-                    }
+
+
+                /**
+                 * logout a user
+                 * 
+                 * @return promise
+                 */
+                logout: function() {
+                    return Parse.User.logOut();
                 },
-                // get the current user
+
+                /**
+                 * get the current user
+                 * 
+                 * @return Parse.User
+                 */
                 getCurrentUser: function() {
                     return Parse.User.current();
                 },
-                // check if someone is logged in
+                
+                /**
+                 * Check if someone is connected
+                 * 
+                 * @return boolean
+                 */
                 isLoggedIn: function() {
                     return (this.getCurrentUser() !== null);
                 }

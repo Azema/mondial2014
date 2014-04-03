@@ -7,12 +7,10 @@ angular.module('mondial2014App')
             $scope.password = '';
 
             $scope.loginAction = function() {
-                UserService.login(
-                        $scope.login,
-                        $scope.password,
-                        function() {
-                            $scope.$apply();
-                        }
+                UserService.login($scope.login, $scope.password).then(
+                    function() {
+                        $scope.$apply();
+                    }
                 );
             };
 

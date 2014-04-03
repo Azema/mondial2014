@@ -4,13 +4,108 @@
 
 angular.module('matchService', [])
         .factory('MatchService', function(/*$resource*/) {
+
+            /**
+             * Read all the bets of the connected user
+             * 
+             * @return promise
+             */
+            var _getMyBets= function() {
+                var Bet = Parse.Object.extend('Bet');
+                var query = new Parse.Query(Bet);
+                query.equalTo('user', Parse.User.current());
+                query.include('match');
+                return query.find().then(
+                    function(results) {
+                        var myBets = [];
+                        for(var i = 0; i < results.length; i++) {
+                            myBets.push({
+                                id: results[i].id,
+                                awayScore: results[i].get('awayScore'),
+                                homeScore: results[i].get('homeScore'),
+                                matchId: results[i].get('match').id,
+                                parseObject: results[i]
+                            });
+                        }
+                        return myBets;
+                    }
+                );
+            };
+
+            /**
+             * Return the bet saved by the current user for the specified match
+             *
+             * @return a real bet or an empty bet
+             */
+            var _findBet = function(allMyBets, match) {
+                for (var i=0; i<allMyBets.length; i++) {
+                    if (allMyBets[i].matchId === match.id) {
+                        return allMyBets[i];
+                    }
+                }
+                var BetObj = Parse.Object.extend("Bet");
+                var bet = new BetObj();
+                bet.set('user', Parse.User.current());
+                bet.set('match', match.parseObject);
+                return {
+                    parseObject: bet,
+                };
+            };
+
+            /**
+             * Read all the matches with their section
+             * 
+             * @return promise
+             */
+            var _getMatchSections = function() {
+                var MatchSection = Parse.Object.extend('MatchSection');
+                var query = new Parse.Query(MatchSection);
+                query.ascending('label');
+                query.include('matchs');
+
+                // use the find method to retrieve all public books
+                return query.find().then(
+                    function(results) {
+                        var matchSections = [];
+                        for(var i = 0; i < results.length; i++) {
+                            var parseMatches = results[i].get('matchs');
+                            var matches = [];
+                            for(var j = 0; j<parseMatches.length; j++) {
+                                matches.push({
+                                    id: parseMatches[j].id,
+                                    date: parseMatches[j].get('date'),
+                                    place: parseMatches[j].get('place'),
+                                    home: parseMatches[j].get('home'),
+                                    away: parseMatches[j].get('away'),
+                                    homeCode: parseMatches[j].get('homeCode'),
+                                    awayCode: parseMatches[j].get('awayCode'),
+                                    homeScore: parseMatches[j].get('homeScore'),
+                                    awayScore: parseMatches[j].get('awayScore'),
+                                    parseObject: parseMatches[j]
+                                });
+                            }
+                            matchSections.push({
+                                label: results[i].get('label'),
+                                matchs: matches
+                            });
+                        }
+                        return matchSections;
+                    }
+                );
+            };
+
             var ParseService = {
                 name: 'Parse',
 
-                getBetsPerMatchSection: function(successCallback, errorCallback) {
-                    return _getMyBets(
+                /**
+                 * Read all the matches organized per section with the user bets
+                 *
+                 * @return match object
+                 */
+                getBetsPerMatchSection: function() {
+                    return _getMyBets().then(
                         function(bets) {
-                            _getMatchSections(
+                            return _getMatchSections().then(
                                 function(matchSections) {
                                     for (var group=0; group<matchSections.length; group++) {
                                         for (var match=0; match<matchSections[group].matchs.length; match++) {
@@ -58,29 +153,36 @@ angular.module('matchService', [])
                                             }
                                         }
                                     }
-                                    if (typeof successCallback !== 'undefined') {
-                                        successCallback(matchSections);
-                                    }
-                                },
-                                function(error) {
-                                    if (typeof errorCallback !== 'undefined') {
-                                        errorCallback(error);
-                                    }
+                                    return matchSections;
                                 }
                             );
                         }
                     );
                 },
 
-                // read the match sections
-                getMatchSections: function(successCallback, errorCallback) {
-                    return _getMatchSections(successCallback, errorCallback);
+                /**
+                 * Read all the match sections
+                 *
+                 * @return promise
+                 */
+                getMatchSections: function() {
+                    return _getMatchSections();
                 },
 
-                getMyBets: function(successCallback, errorCallback) {
-                    return _getMyBets(successCallback, errorCallback);
+                /**
+                 * Read all the bets emitted by the current user
+                 *
+                 * @return promise
+                 */
+                getMyBets: function() {
+                    return _getMyBets();
                 },
 
+                /**
+                 * Return the bet saved by the current user for the specified match
+                 *
+                 * @return a real bet or an empty bet
+                 */
                 findBet: function(allMyBets, match) {
                     return _findBet(allMyBets, match);
                 }
@@ -91,90 +193,7 @@ angular.module('matchService', [])
 
         });
 
-var _getMatchSections = function(successCallback, errorCallback) {
-    var MatchSection = Parse.Object.extend('MatchSection');
-    var query = new Parse.Query(MatchSection);
-    query.ascending('label');
-    query.include('matchs');
 
-    // use the find method to retrieve all public books
-    query.find({
-        success: function(results) {
-            var matchSections = [];
-            for(var i = 0; i < results.length; i++) {
-                var parseMatches = results[i].get('matchs');
-                var matches = [];
-                for(var j = 0; j<parseMatches.length; j++) {
-                    matches.push({
-                        id: parseMatches[j].id,
-                        date: parseMatches[j].get('date'),
-                        place: parseMatches[j].get('place'),
-                        home: parseMatches[j].get('home'),
-                        away: parseMatches[j].get('away'),
-                        homeCode: parseMatches[j].get('homeCode'),
-                        awayCode: parseMatches[j].get('awayCode'),
-                        homeScore: parseMatches[j].get('homeScore'),
-                        awayScore: parseMatches[j].get('awayScore'),
-                        parseObject: parseMatches[j]
-                    });
-                }
-                matchSections.push({
-                    label: results[i].get('label'),
-                    matchs: matches
-                });
-            }
-            if (typeof successCallback !== 'undefined') {
-                successCallback(matchSections);
-            }
-        },
-        error: function(error) {
-            if (typeof errorCallback !== 'undefined') {
-                errorCallback(error);
-            }
-        }
-    });
-};
 
-var _getMyBets= function(successCallback, errorCallback) {
-    var Bet = Parse.Object.extend('Bet');
-    var query = new Parse.Query(Bet);
-    query.equalTo('user', Parse.User.current());
-    query.include('match');
-    query.find({
-        success: function(results) {
-            var myBets = [];
-            for(var i = 0; i < results.length; i++) {
-                myBets.push({
-                    id: results[i].id,
-                    awayScore: results[i].get('awayScore'),
-                    homeScore: results[i].get('homeScore'),
-                    matchId: results[i].get('match').id,
-                    parseObject: results[i]
-                });
-            }
-            if (typeof successCallback !== 'undefined') {
-                successCallback(myBets);
-            }
-        },
-        error: function(error) {
-            if (typeof errorCallback !== 'undefined') {
-                errorCallback(error);
-            }
-        }
-    });
-};
 
-var _findBet = function(allMyBets, match) {
-    for (var i=0; i<allMyBets.length; i++) {
-        if (allMyBets[i].matchId === match.id) {
-            return allMyBets[i];
-        }
-    }
-    var BetObj = Parse.Object.extend("Bet");
-    var bet = new BetObj();
-    bet.set('user', Parse.User.current());
-    bet.set('match', match.parseObject);
-    return {
-        parseObject: bet,
-    };
-};
+
