@@ -43,14 +43,19 @@
             </ul>
           </div>
         
-          <div id="users" class="login pull-right" ng-controller="HeaderCtrl">
-              <span ng-show="isLoggedIn()">{{connectedUser()}}</span>
-              <input type="text" ng-model="login" ng-show="!(isLoggedIn())" class="tiny">
-              <input type="password" ng-model="password" ng-show="!(isLoggedIn())" class="tiny">
-              <button class='btn btn-default btn-xs' ng-show="!(isLoggedIn())" ng-click="loginAction()">{{'Login' | translate}}</button>
-              <button class='btn btn-default btn-xs' ng-show="isLoggedIn()" ng-click="logoutAction()">{{'Logout' | translate}}</button>
+          <div class="pull-right" ng-controller="HeaderCtrl">
+            <div id="users" class="login pull-right">
+                <span ng-show="isLoggedIn()">{{connectedUser()}}</span>
+                <input type="text" ng-model="login" ng-show="!(isLoggedIn())" class="tiny">
+                <input type="password" ng-model="password" ng-show="!(isLoggedIn())" class="tiny">
+                <button class='btn btn-default btn-xs' ng-show="!(isLoggedIn())" ng-click="loginAction()">{{'Login' | translate}}</button>
+                
+                <button class='btn btn-default btn-xs' ng-show="isLoggedIn()" ng-click="logoutAction()">{{'Logout' | translate}}</button>
+            </div>
+            <div id="users" class="login pull-right">
+                <select ng-model="language" ng-options="c.country for c in languages" ng-show="!(isLoggedIn())" ng-change="changeLanguage()"></select>
+            </div>
           </div>
-
 
           <h3 class="text-muted">mondial2014</h3>
 

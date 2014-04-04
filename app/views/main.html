@@ -6,7 +6,28 @@
     <img src="images/fifa.jpg" alt="I'm Yeoman"><br>
     {{'Take a beer and a pizza' | translate }} !
   </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/bets">Let's play</a></p>
+  <p ng-show="!registerFormSwitch"><button class="btn btn-lg btn-success" ng-click="toggleRegister()">{{'Let\'s play' | translate}}</button></p>
+  <hr ng-show="registerFormSwitch" style="border: solid 1px">
+  <div ng-show="registerFormSwitch" class="register">
+  	<label>{{ 'login.name' | translate}}</label><input type="text" ng-model="registerLogin" ng-disabled="onRegister" /><br />
+  	<p ng-show="!checkLogin()">{{'login.length.warning' | translate}}</p>
+
+	<label>{{ 'user.email' | translate}}</label><input type="text" ng-model="registerEmail" ng-disabled="onRegister" /><br />
+  	<p ng-show="!checkEmail()">{{'email.warning' | translate}}</p>
+
+  	<label>{{ 'password.first' | translate}}</label><input type="password" ng-model="registerPassword1" ng-disabled="onRegister" /><br />
+  	<p ng-show="!lengthPassword()">{{'password.length.warning' | translate}}</p>
+  	
+  	<label>{{ 'password.second' | translate}}</label><input type="password" ng-model="registerPassword2" ng-disabled="onRegister" /><br />
+  	<p ng-show="!equalPassword()">{{'password.equal.warning' | translate}}</p>
+  	
+  	<label>{{ 'language' | translate}}</label><select ng-model="language" ng-options="c.country for c in languages" ng-disabled="onRegister">
+  	</select><br />
+  	<p ng-show="lastError.length>0">{{lastError | translate}}</p>
+  	
+  	<button class="btn btn-lg btn-success" ng-disabled="!canRegister()" ng-click="register()" ng-show="!onRegister">{{ 'register' | translate}}</button>
+  	<img ng-src="/images/ajax-loader.gif" ng-show="onRegister"/>
+  </div>
 </div>
 
 <div class="jumbotron" ng-show="isLoggedIn()">

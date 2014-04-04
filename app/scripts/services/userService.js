@@ -36,6 +36,15 @@ angular.module('userService', [])
                 },
                 
                 /**
+                 * Create a new user
+                 * 
+                 * @return promise
+                 */
+                userNew: function(username, password, email, language) {
+                    return Parse.User.signUp(username, password, {email: email, lang: language});
+                },
+
+                /**
                  * Check if someone is connected
                  * 
                  * @return boolean

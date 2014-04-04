@@ -4,8 +4,8 @@
 		<div class="team-group-name">{{group.label}}</div>
 		<div class="match" ng-repeat="(matchKey, match) in group.matchs" ng-click="open(match)">
 			<span class="flag-icon flag-icon-{{match.homeCode}}"></span>
-			<span class="country">{{match.home}}</span><span class="score">{{match.getHomeBet()}}</span> -
-			<span class="score">{{match.getAwayBet()}}</span><span class="country">{{match.away}}</span>
+			<span class="country">{{match.homeCode | translate}}</span><span class="score">{{match.getHomeBet()}}</span> -
+			<span class="score">{{match.getAwayBet()}}</span><span class="country">{{match.awayCode | translate}}</span>
 			<span class="flag-icon flag-icon-{{match.awayCode}}"></span>
 			<div class="more-information">
 				<div>
@@ -18,15 +18,15 @@
 </div>
 <script type="text/ng-template" id="myModalContent.html">
     <div class="modal-header">
-        <h3>Make your bet!</h3>
+        <h3>{{ 'Make your bet' | translate}}!</h3>
     </div>
     <div class="modal-body">
     	<div class="bet-input">
-    		<h4><span class="flag-icon flag-icon-{{match.homeCode}}"></span>{{match.home}}</h4>
+    		<h4><span class="flag-icon flag-icon-{{match.homeCode}}"></span>{{match.homeCode | translate}}</h4>
     		<input type="text" ng-model="bet.homeScore"/>
     	</div>
     	<div class="bet-input">
-        	<h4><span class="flag-icon flag-icon-{{match.awayCode}}"></span>{{match.away}}</h4>
+        	<h4><span class="flag-icon flag-icon-{{match.awayCode}}"></span>{{match.awayCode | translate}}</h4>
         	<input type="text" ng-model="bet.awayScore" />
     	</div>
     </div>

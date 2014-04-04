@@ -6,6 +6,12 @@ angular.module('mondial2014App')
             $scope.login = '';
             $scope.password = '';
 
+            $scope.languages=[
+                {code:'en', country:'English' },
+                {code:'fr', country:'Français' }
+            ];
+            $scope.language=$scope.languages[0];
+
             $scope.loginAction = function() {
                 UserService.login($scope.login, $scope.password).then(
                     function() {
@@ -35,5 +41,9 @@ angular.module('mondial2014App')
 
             $scope.isLoggedIn = function() {
                 return UserService.isLoggedIn();
+            };
+
+            $scope.changeLanguage = function() {
+                $translate.use($scope.language.code);
             };
         }]);
