@@ -1,3 +1,4 @@
+npm install grunt-json-minify
 npm install --save-dev connect-livereload
 npm install
 bower install

@@ -7,6 +7,7 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically
@@ -14,6 +15,8 @@ module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
+  
+  //grunt.loadNpmTasks('grunt-jsonmin');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -29,6 +32,13 @@ module.exports = function (grunt) {
     watch: {
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        tasks: ['newer:jshint:all'],
+        options: {
+          livereload: true
+        }
+      },
+      language: {
+        files: ['<%= yeoman.app %>/languages/*.json'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: true
@@ -233,6 +243,11 @@ module.exports = function (grunt) {
         }]
       }
     },
+      'json-minify': {
+         build: {
+           files: '<%= yeoman.dist %>/languages/*.json'
+         }
+       },
     htmlmin: {
       dist: {
         options: {
@@ -295,6 +310,11 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '<%= yeoman.app %>/bower_components/flag-icon-css',
+          dest: '<%= yeoman.dist %>',
+          src: ['flags/**']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>',
           dest: '<%= yeoman.dist %>',
           src: ['flags/**']
         }]
@@ -372,6 +392,8 @@ module.exports = function (grunt) {
       'watch'
     ]);
   });
+  
+  grunt.loadNpmTasks('grunt-json-minify');
 
   grunt.registerTask('server', function () {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
@@ -395,6 +417,7 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
+    'json-minify',
     'cdnify',
     'cssmin',
     'uglify',
